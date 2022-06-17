@@ -22,33 +22,44 @@ opacity:0.5;
 margin: auto; 
 z-index:2;
 ` 
+const Wrapper = styled.div`
+height: 100%;
+display: flex;
+transition: all 1.5s ease;
+transform: translateX(${(props)=>props.SlideIndex * -100 }vw ); 
+`
 function Slider() { 
-    const [Slide, setSlide] = useState(0)
+    const [SlideIndex, setSlideIndex] = useState(0)
+    console.log(SlideIndex)
     const handleClick = (direction) =>{
-
+        if(direction==="left"){
+            console.log("left");
+            setSlideIndex(SlideIndex > 0 ? SlideIndex -1 : 2 );
+        } else {
+            setSlideIndex(SlideIndex < 2 ? SlideIndex +1 : 0);
+        }
     }
   return (
     <div className='slider-container' >
         <Arrow direction="left" onClick={()=>handleClick("left")} >
             <ArrowLeftOutlinedIcon/> 
         </Arrow> 
-        <div className="slide-wrapper">
-                {sliderItems.map(item=>(
-
-                    <div className="slide" bg={item.bg}>
-                        <div className="img-container">
-                            <img src={item.img} alt="" />
-                        </div>
-                        <div className="info-container">
-                            <h1 className="title">{item.title}</h1>
-                            <p className="description">{item.desc}</p>
-                            <button className='button'>SHOW NOW</button>
-                        </div>
-                    </div>
-                    ))}
-                
+        <Wrapper SlideIndex={SlideIndex} >
+                {sliderItems.map((item)=>(
+                     <div className="slide" bg={item.bg}>
+                     <div className="img-container" key="{item1}">
+                         <img src={item.img} alt="" />
+                     </div>
+                     <div className="info-container">
+                         <h1 className="title" key="{item2}" >{item.title}</h1>
+                         <p className="description" key="{item3}" >{item.desc}</p>
+                         <button className='button'>SHOW NOW</button>
+                     </div>
+                 </div>
+                   
+                    ))} 
             
-        </div>
+        </Wrapper>
         <Arrow direction="right" onClick={()=>handleClick("right")} > 
             <ArrowRightOutlinedIcon/> 
         </Arrow>
